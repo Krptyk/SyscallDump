@@ -20,15 +20,15 @@ This project provides a utility to extract syscall numbers from `ntdll.dll` on W
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/syscall-number-dumper.git
-    cd syscall-number-dumper
+    git clone https://github.com/Krptyk/SyscallDump.git
+    cd SyscallDump
     ```
 
 2. Build the project using Visual Studio or any compatible C++ compiler.
 
 3. Run the executable:
     ```sh
-    ./SyscallNumberDumper
+    ./SyscallDump.exe
     ```
 
 ## Example Output
@@ -41,9 +41,18 @@ DOS header is valid
 NT header is valid
 Located export directory
 Syscall Numbers in C:\Windows\System32\ntdll.dll:
+Checking function: NtAcceptConnectPort
+Function NtAcceptConnectPort found at address: 2d2489bd010
 NtAcceptConnectPort : 2
+Checking function: NtAccessCheck
+Function NtAccessCheck found at address: 2d2489bcfd0
 NtAccessCheck : 0
-NtAccessCheckAndAuditAlarm : 29
+Checking function: NtAccessCheckAndAuditAlarm
+Function NtAccessCheckAndAuditAlarm found at address: 2d2489bd4f0
+NtAccessCheckAndAuditAlarm : 41
+Checking function: NtAccessCheckByType
+Function NtAccessCheckByType found at address: 2d2489bdc20
+NtAccessCheckByType : 99
 ...
 ```
 
@@ -64,7 +73,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-- [Your Name](https://github.com/yourusername)
+- [Krptyk](https://github.com/Krptyk)
 
 ## Date
 
