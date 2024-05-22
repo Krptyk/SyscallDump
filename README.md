@@ -75,6 +75,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Krptyk](https://github.com/Krptyk)
 
-## Date
 
-Created on May 18, 2024.
