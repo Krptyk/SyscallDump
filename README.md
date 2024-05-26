@@ -1,15 +1,16 @@
 
-# Syscall Dumper
+# Syscall and Function Address Dumper
 
-This project provides a utility to extract syscall numbers from `ntdll.dll` on Windows systems. It parses the PE headers and export directory of `ntdll.dll` to identify and extract syscall numbers for functions starting with "Nt".
+This project provides a utility to extract syscall numbers from `ntdll.dll` and function addresses from `kernel32.dll` on Windows systems. It parses the PE headers and export directory to identify and extract syscall numbers for functions starting with "Nt" in `ntdll.dll` and retrieves function addresses for all exported functions in `kernel32.dll`.
 
 ## Features
 
-- Opens and maps `ntdll.dll` into memory
+- Opens and maps `ntdll.dll` or `kernel32.dll` into memory
 - Parses the DOS and PE headers
 - Locates the export directory
-- Identifies functions starting with "Nt"
-- Extracts and prints syscall numbers for the identified functions
+- Identifies functions starting with "Nt" or "Zw" in `ntdll.dll`
+- Extracts and prints syscall numbers for the identified functions in `ntdll.dll`
+- Retrieves and prints function addresses for all exported functions in `kernel32.dll`
 
 ## Requirements
 
@@ -28,44 +29,64 @@ This project provides a utility to extract syscall numbers from `ntdll.dll` on W
 
 3. Run the executable:
     ```sh
-    ./SyscallDump.exe
+    ./SyscallDump.exe <ntdll|kernel32>
     ```
 
 ## Example Output
 
+### Kernel32 Example
 ```
-Successfully opened C:\Windows\System32\ntdll.dll
-Successfully created file mapping
-Successfully mapped view of file
+.\SyscallDump.exe kernel32
+Successfully loaded C:\Windows\System32\kernel32.dll
+Base address of C:\Windows\System32\kernel32.dll: 0x7ff96d9f0000
 DOS header is valid
 NT header is valid
 Located export directory
-Syscall Numbers in C:\Windows\System32\ntdll.dll:
-Checking function: NtAcceptConnectPort
-Function NtAcceptConnectPort found at address: 2d2489bd010
-NtAcceptConnectPort : 2
-Checking function: NtAccessCheck
-Function NtAccessCheck found at address: 2d2489bcfd0
-NtAccessCheck : 0
-Checking function: NtAccessCheckAndAuditAlarm
-Function NtAccessCheckAndAuditAlarm found at address: 2d2489bd4f0
-NtAccessCheckAndAuditAlarm : 41
-Checking function: NtAccessCheckByType
-Function NtAccessCheckByType found at address: 2d2489bdc20
-NtAccessCheckByType : 99
-...
+Exported Functions in C:\Windows\System32\kernel32.dll:
+AcquireSRWLockExclusive found at address: 0x7ff96db190a0
+AcquireSRWLockShared found at address: 0x7ff96db11760
+ActivateActCtx found at address: 0x7ff96da10390
+ActivateActCtxWorker found at address: 0x7ff96da0ba10
+AddAtomA found at address: 0x7ff96da49230
+
+```
+
+### Ntdll Example
+```
+.\SyscallDump.exe ntdll
+Successfully loaded C:\Windows\System32\ntdll.dll
+Base address of C:\Windows\System32\ntdll.dll: 0x7ff96daf0000
+DOS header is valid
+NT header is valid
+Located export directory
+Exported Functions in C:\Windows\System32\ntdll.dll:
+NtAcceptConnectPort found at address: 0x7ff96db8d010
+Syscall number for NtAcceptConnectPort : 2
+NtAccessCheck found at address: 0x7ff96db8cfd0
+Syscall number for NtAccessCheck : 0
+NtAccessCheckAndAuditAlarm found at address: 0x7ff96db8d4f0
+Syscall number for NtAccessCheckAndAuditAlarm : 41
+NtAccessCheckByType found at address: 0x7ff96db8dc20
+Syscall number for NtAccessCheckByType : 99
+NtAccessCheckByTypeAndAuditAlarm found at address: 0x7ff96db8daf0
+Syscall number for NtAccessCheckByTypeAndAuditAlarm : 89
+NtAccessCheckByTypeResultList found at address: 0x7ff96db8dc40
+Syscall number for NtAccessCheckByTypeResultList : 100
+
 ```
 
 ## Code Explanation
 
 - `Is64BitOS()` function checks if the operating system is 64-bit.
-- `DumpSyscallNumbers()` function:
-  - Opens `ntdll.dll` from disk.
-  - Maps the file into memory.
+- `DumpFunctionAddressesAndSyscallNumbers()` function:
+  - Loads the specified DLL into the process address space.
+  - Retrieves and prints the base address of the DLL.
   - Parses the DOS and PE headers.
   - Locates the export directory.
-  - Iterates through exported functions and checks for functions starting with "Nt".
-  - Extracts and prints syscall numbers.
+  - Iterates through exported functions.
+  - Retrieves and prints function addresses for all exported functions in `kernel32.dll`.
+  - Identifies functions starting with "Nt" or "Zw" in `ntdll.dll`.
+  - Extracts and prints syscall numbers for the identified functions in `ntdll.dll`.
 
 ## License
 
@@ -74,5 +95,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Author
 
 - [Krptyk](https://github.com/Krptyk)
-
-
