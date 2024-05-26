@@ -1,7 +1,7 @@
 
 # Syscall and Function Address Dumper
 
-This project provides a utility to extract syscall numbers from `ntdll.dll` and function addresses from `kernel32.dll` on Windows systems. It parses the PE headers and export directory to identify and extract syscall numbers for functions starting with "Nt" in `ntdll.dll` and retrieves function addresses for all exported functions in `kernel32.dll`.
+This project provides a utility to extract syscall numbers from `ntdll.dll` and function addresses from `kernel32.dll` on Windows systems. It parses the PE headers and export directory to identify and extract syscall numbers for functions starting with "Nt" & "Zw" in `ntdll.dll` and retrieves function addresses for all exported functions in `kernel32.dll`.
 
 ## Features
 
