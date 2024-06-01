@@ -29,7 +29,7 @@ This project provides a utility to extract syscall numbers from `ntdll.dll` and 
 
 3. Run the executable:
     ```sh
-    ./SysCallDump.exe <ntdll|kernel32|user32|ws2_32>
+    ./SysCallDump.exe <ntdll|kernel32|user32|ws2_32|dbghelp>
     ```
 
 ## Example Output
