@@ -63,7 +63,7 @@ void DumpFunctionAddressesAndSyscallNumbers(const char* dllPath, bool dumpAllFun
     for (DWORD i = 0; i < exportDirectory->NumberOfNames; i++) {
         const char* functionName = (const char*)((BYTE*)baseAddress + nameRvas[i]);
 
-        // Check if the function name starts with "Nt" or "Zw" for ntdll, or dump all for kernel32, user32, or ws2_32
+        // Check if the function name starts with "Nt" or "Zw" for ntdll, or dump all for kernel32, user32, ws2_32, or dbghelp
         if (dumpAllFunctions || strncmp(functionName, "Nt", 2) == 0 || strncmp(functionName, "Zw", 2) == 0) {
             // Get the address of the function using GetProcAddress
             FARPROC functionAddress = GetProcAddress(hModule, functionName);
@@ -105,7 +105,7 @@ void DumpFunctionAddressesAndSyscallNumbers(const char* dllPath, bool dumpAllFun
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <ntdll|kernel32|user32|ws2_32>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <ntdll|kernel32|user32|ws2_32|dbghelp>" << std::endl;
         return 1;
     }
 
@@ -128,9 +128,13 @@ int main(int argc, char* argv[]) {
         dllPath = "C:\\Windows\\System32\\ws2_32.dll";
         dumpAllFunctions = true;
     }
+    else if (dllFlag == "dbghelp") {
+        dllPath = "C:\\Windows\\System32\\dbghelp.dll";
+        dumpAllFunctions = true;
+    }
     else {
         std::cerr << "Invalid argument: " << dllFlag << std::endl;
-        std::cerr << "Usage: " << argv[0] << " <ntdll|kernel32|user32|ws2_32>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <ntdll|kernel32|user32|ws2_32|dbghelp>" << std::endl;
         return 1;
     }
 
